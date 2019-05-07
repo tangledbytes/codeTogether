@@ -1,3 +1,3 @@
 # CodeTogether
 
-Still in it's initial development stage.
+Still in its initial development stage.
