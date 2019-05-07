@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+
+.App{
+  display: grid;
+  grid-template-columns: 7fr 3fr;
+  grid-template-rows: 2fr 4fr;
+}
+.editor{
+  grid-row: 1/3;
+}
+.block{
+  border: 1px solid #666;
+  padding: 0.5rem;
+}
+.textBox{
+  margin: 5px;
+  display: block;
+  height: 80%;
+  width: 95%;
+  resize: none;
+  overflow: auto;
+}
+.output{
+  font-family: 'Inconsolata', monospace;
+  font-size: 1rem;
+  margin: 10px;
+  padding: 2px;
+  height: 24rem;
+  width: 96%;
+  color: white;
+  background-color: black;
+  border: 1px solid rgb(169, 169, 169);
+  overflow-y: auto;
+  white-space: pre-line;
+}
