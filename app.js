@@ -8,6 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'client', 'build')));
+
 // ======================================================
 
 app.post('/eval', (req, res) => {
@@ -28,11 +29,12 @@ app.post('/eval', (req, res) => {
     }
     func.runSource(code, { stdin: params })
         .then(data => {
+            console.log(data);
             if (!data.stderr) {
                 res.send(data.stdout);
             }
             else {
-                res.status(200).send(data.stderr);
+                res.status(200).send(data);
             }
         })
         .catch(err => res.status(500).send(err));
