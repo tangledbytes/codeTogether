@@ -8,4 +8,4 @@ services:
       - /app/client/node_modules
       - ./:/app
     ports:
-      - '8000:5000'
+      - '5000:5000'
