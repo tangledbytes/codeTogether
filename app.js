@@ -34,7 +34,7 @@ app.post('/eval', (req, res) => {
                 res.send(data.stdout);
             }
             else {
-                res.status(200).send(data);
+                res.status(200).send(data.stderr);
             }
         })
         .catch(err => res.status(500).send(err));
