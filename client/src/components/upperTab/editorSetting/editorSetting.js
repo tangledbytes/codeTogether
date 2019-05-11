@@ -13,8 +13,8 @@ export default function editorSetting({ getLanguage, getTheme }) {
             </select>
             <label className={Classes.controlLabel}>Theme</label>
             <select className={Classes.picker} onChange={getTheme}>
-                <option>Visual Studio</option>
                 <option>Visual Studio Dark</option>
+                <option>Visual Studio</option>
             </select>
         </div>
     )

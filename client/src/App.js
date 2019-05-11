@@ -10,7 +10,7 @@ class App extends React.Component {
     this.state = {
       code: '// type your code...',
       language: 'javascript',
-      theme: 'vs',
+      theme: 'vs-dark',
       output: '',
       inputs: ''
     }
@@ -34,10 +34,10 @@ class App extends React.Component {
   }
 
   getTheme = (event) => {
-    if (event.target.value === 'Visual Studio Dark')
-      this.setState({ theme: 'vs-dark' })
+    if (event.target.value === 'Visual Studio')
+      this.setState({ theme: 'vs' })
     else
-      this.setState({ theme: 'vs' });
+      this.setState({ theme: 'vs-dark' });
   }
 
   saveCode = (newValue) => {

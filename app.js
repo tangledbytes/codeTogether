@@ -13,10 +13,11 @@ app.use(express.static(path.join(__dirname, 'client', 'build')));
 // ======================================================
 
 app.post('/eval', (req, res) => {
+    console.log(req.body);
     const code = req.body.code;
-    const input = req.body.input;
+    const inputs = req.body.inputs;
     const language = req.body.language;
-    evaluate(language, code, input, (err, data) => {
+    evaluate(language, code, inputs, (err, data) => {
         if (err)
             res.status(500).send({ "msg": "Some error occured" });
         else {

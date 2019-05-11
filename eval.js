@@ -17,7 +17,9 @@ const generateFilename = language => {
 }
 
 const evaluate = (language, code, input, cb) => {
-    const req = { stdin: input, "files": [{ "name": generateFilename(language), "content": code }] };
+    console.log(input);
+    const req = { "stdin": input, "files": [{ "name": generateFilename(language), "content": code }] };
+    console.log(req);
     const config = {
         "url": `https://run.glot.io/languages/${language}/latest`,
         headers: {
@@ -27,6 +29,7 @@ const evaluate = (language, code, input, cb) => {
         "body": JSON.stringify(req)
     }
     request.post(config, (err, httpres, body) => {
+        console.log(body);
         body = JSON.parse(body);
         if (err) cb(err);
         else cb(err, body);
