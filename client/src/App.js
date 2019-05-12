@@ -4,6 +4,7 @@ import axios from 'axios';
 import ReactModal from 'react-modal';
 import './App.css';
 import UpperTab from "./components/upperTab/upperTab";
+import Button from './components/Button/button';
 
 ReactModal.setAppElement('#root');
 
@@ -16,8 +17,10 @@ class App extends React.Component {
       theme: 'vs-dark',
       output: '',
       input: '',
-      collaborators: [],
-      showModal: false
+      collaborators: new Set([]),
+      showModal: false,
+      whichModal: '',
+      inputField: ''
     }
   }
 
@@ -55,6 +58,7 @@ class App extends React.Component {
   // Save input parameters into the state
   saveInput = (event) => {
     this.setState({ input: event.target.value })
+    event.target.value = '';
   }
 
   // Handle click event@ BUILD button
@@ -67,19 +71,35 @@ class App extends React.Component {
 
     axios.post('/eval', data)
       .then(res => {
-        console.log(res.data);
         this.setState({ output: res.data });
       })
       .catch(err => console.log(err));
   }
 
   // handle modal
-  handleCloseModal = () => {
+  handleCloseModal = (e) => {
+    e.preventDefault();
     this.setState({ showModal: false });
+    if (this.state.whichModal === 'Add')
+      this.setState((prevState, props) => {
+        return ({
+          collaborators: prevState.collaborators.add(this.state.inputField)
+        })
+      })
+    else
+      this.setState((prevState, props) => {
+        prevState.collaborators.delete(this.state.inputField);
+        return ({
+          collaborators: this.state.collaborators
+        })
+      })
   }
 
-  handleOpenModal = () => {
+  handleOpenModal = (e) => {
     this.setState({ showModal: true });
+    console.log(e.currentTarget.innerHTML);
+    if (this.state.inputField)
+      this.setState({ whichModal: e.currentTarget.innerHTML })
   }
 
   render() {
@@ -139,9 +159,13 @@ class App extends React.Component {
               <div>
                 HINT: Socket ID can be found on right side of your screen (on top of chat section)
               </div>
-              <label for="socketID">Enter Socker ID of the Collaborator</label>
-              <input name="socketID" type="text" placeholder="Enter socket id"></input>
-              <button onClick={this.handleCloseModal}>Submit</button>
+              <label htmlFor="socketID">Enter Socker ID of the Collaborator</label>
+              <input
+                name="socketID"
+                type="text"
+                placeholder="Enter socket id"
+                onChange={e => this.setState({ inputField: e.target.value })}></input>
+              <Button click={this.handleCloseModal} name="Submit" />
             </form>
           </div>
         </ReactModal>
