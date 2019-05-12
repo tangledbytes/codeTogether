@@ -115,8 +115,8 @@ class App extends React.Component {
             click={this.click}
             modal={this.handleOpenModal} />
           <MonacoEditor
-            width="40vw"
-            height={document.documentElement.clientHeight - (2.5 * 16)}
+            width="70vw"
+            height={(document.documentElement.clientHeight * (3 / 5)) - (2.5 * 16)}
             language={this.state.language}
             theme={this.state.theme}
             value={code}
@@ -124,21 +124,6 @@ class App extends React.Component {
             onChange={this.saveCode}
             editorDidMount={this.editorDidMount}
           />
-        </div>
-        <div className='block input'>
-          Enter input parameters here:
-          <textarea className='textBox' onChange={this.saveInput} />
-        </div>
-        <div className='block output'>
-          Output:
-          <div>
-            <div className='outputArea'>
-              <code>
-                {this.state.output.stderr || this.state.output.error ?
-                  (this.state.output.stderr + this.state.output.error) : this.state.output.stdout}
-              </code>
-            </div>
-          </div>
         </div>
         <div className="view">
           <div className="info">Your socket id is: 65555423fhjv65</div>
@@ -148,6 +133,18 @@ class App extends React.Component {
               <input className="inputField" placeholder="Type your message..."></input>
               <button className="button">Send</button>
             </form>
+          </div>
+        </div>
+        <div className='input'>
+          <textarea className='textBox' onChange={this.saveInput} placeholder="Input goes here..." />
+        </div>
+        <div className='output'>
+          <div className='outputArea'>
+            <code>
+              OUTPUT:<br />
+              {this.state.output.stderr || this.state.output.error ?
+                (this.state.output.stderr + this.state.output.error) : this.state.output.stdout}
+            </code>
           </div>
         </div>
         <ReactModal
