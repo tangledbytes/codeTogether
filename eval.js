@@ -1,6 +1,15 @@
+/************************************************************
+
+ * @title eval.js
+ * @access PRIVATE
+ * @description Module handles the task to call the glot API
+ 
+*************************************************************/
+
 const request = require('request');
 const crypto = require('crypto');
 
+// Handles the task to assign extensions to the file
 const fileExtension = language => {
     if (language === 'c')
         return '.c';
@@ -12,10 +21,13 @@ const fileExtension = language => {
         return '.py';
 }
 
+// Generate hashes to randomise the filenames
 const generateFilename = language => {
+    // Using md5 algorithm
     return crypto.createHash('md5') + fileExtension(language);
 }
 
+// Main function evaluate --Here code compile requests here sent to the glot api
 const evaluate = (language, code, input, cb) => {
     const req = { "stdin": input, "files": [{ "name": generateFilename(language), "content": code }] };
     const config = {

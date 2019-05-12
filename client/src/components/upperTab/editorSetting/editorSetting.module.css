@@ -1,3 +1,6 @@
+*{
+    font-size: 0.98rem
+}
 .controlLabel{
     color: #555;
 }
@@ -5,11 +8,9 @@ select{
     background-color: white;
 }
 .picker{
-    width: 10rem;
-    font-size: 1rem;
     outline: none;
     padding: 2px;
-    margin: 0 1rem;
+    margin: 0 0.5rem;
 }
 .picker:active{
     box-shadow: 0 0 10px #91c8f5;

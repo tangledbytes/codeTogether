@@ -1,8 +1,11 @@
 import React from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import axios from 'axios';
+import ReactModal from 'react-modal';
 import './App.css';
 import UpperTab from "./components/upperTab/upperTab";
+
+ReactModal.setAppElement('#root');
 
 class App extends React.Component {
   constructor(props) {
@@ -12,7 +15,9 @@ class App extends React.Component {
       language: 'javascript',
       theme: 'vs-dark',
       output: '',
-      inputs: ''
+      input: '',
+      collaborators: [],
+      showModal: false
     }
   }
 
@@ -20,6 +25,7 @@ class App extends React.Component {
     editor.focus();
   }
 
+  // Make the language compliant to the backend needs
   getLanguage = (event) => {
     let language;
     if (event.target.value === 'C++')
@@ -33,27 +39,30 @@ class App extends React.Component {
     this.setState({ language })
   }
 
+  // Set the theme of the editor using this function
   getTheme = (event) => {
-    if (event.target.value === 'Visual Studio')
+    if (event.target.value === 'Light')
       this.setState({ theme: 'vs' })
     else
       this.setState({ theme: 'vs-dark' });
   }
 
+  // Save code into the state
   saveCode = (newValue) => {
     this.setState({ code: newValue });
-    console.log(newValue);
   }
 
+  // Save input parameters into the state
   saveInput = (event) => {
-    this.setState({ inputs: event.target.value })
+    this.setState({ input: event.target.value })
   }
 
+  // Handle click event@ BUILD button
   click = () => {
     const data = {
       language: this.state.language,
       code: this.state.code,
-      inputs: this.state.inputs
+      input: this.state.input
     }
 
     axios.post('/eval', data)
@@ -64,6 +73,15 @@ class App extends React.Component {
       .catch(err => console.log(err));
   }
 
+  // handle modal
+  handleCloseModal = () => {
+    this.setState({ showModal: false });
+  }
+
+  handleOpenModal = () => {
+    this.setState({ showModal: true });
+  }
+
   render() {
     const code = this.state.code;
     const options = {
@@ -72,9 +90,12 @@ class App extends React.Component {
     return (
       <div className="App">
         <div className="editor">
-          <UpperTab getLanguage={this.getLanguage} getTheme={this.getTheme} click={this.click} />
+          <UpperTab getLanguage={this.getLanguage}
+            getTheme={this.getTheme}
+            click={this.click}
+            modal={this.handleOpenModal} />
           <MonacoEditor
-            width="70vw"
+            width="40vw"
             height={document.documentElement.clientHeight - (2.5 * 16)}
             language={this.state.language}
             theme={this.state.theme}
@@ -84,14 +105,46 @@ class App extends React.Component {
             editorDidMount={this.editorDidMount}
           />
         </div>
-        <div className='block'>
+        <div className='block input'>
           Enter input parameters here:
           <textarea className='textBox' onChange={this.saveInput} />
         </div>
-        <div className='block'>
+        <div className='block output'>
           Output:
-          <div className='output'>{this.state.output}</div>
+          <div>
+            <div className='outputArea'>
+              <code>{this.state.output}</code>
+            </div>
+          </div>
         </div>
+        <div className="view">
+          <div className="info">Your socket id is: 65555423fhjv65</div>
+          <div className="msgBlock"></div>
+          <div className="field">
+            <form className="form">
+              <input className="inputField" placeholder="Type your message..."></input>
+              <button className="button">Send</button>
+            </form>
+          </div>
+        </div>
+        <ReactModal
+          isOpen={this.state.showModal}
+          contentLabel="onRequestClose Example"
+          onRequestClose={this.handleCloseModal}
+          className="Modal"
+          overlayClassName="Overlay"
+        >
+          <div>
+            <form>
+              <div>
+                HINT: Socket ID can be found on right side of your screen (on top of chat section)
+              </div>
+              <label for="socketID">Enter Socker ID of the Collaborator</label>
+              <input name="socketID" type="text" placeholder="Enter socket id"></input>
+              <button onClick={this.handleCloseModal}>Submit</button>
+            </form>
+          </div>
+        </ReactModal>
       </div>
     );
   }
