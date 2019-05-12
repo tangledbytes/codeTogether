@@ -21,12 +21,8 @@ app.post('/eval', (req, res) => {
     const input = req.body.input;
     const language = req.body.language;
     evaluate(language, code, input, (err, data) => {
-        if (err)
-            res.status(500).send({ "msg": "Some error occured" });
-        else {
-            if (!data.stderr) res.send(data.stdout);
-            else res.status(200).send(data.stderr);
-        }
+        if (err) res.status(500).send({ "msg": "Some error occured" });
+        else res.send(data);
     })
 });
 

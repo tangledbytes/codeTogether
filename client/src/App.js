@@ -133,7 +133,10 @@ class App extends React.Component {
           Output:
           <div>
             <div className='outputArea'>
-              <code>{this.state.output}</code>
+              <code>
+                {this.state.output.stderr || this.state.output.error ?
+                  (this.state.output.stderr + this.state.output.error) : this.state.output.stdout}
+              </code>
             </div>
           </div>
         </div>
