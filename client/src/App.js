@@ -136,7 +136,11 @@ class App extends React.Component {
           </div>
         </div>
         <div className='input'>
-          <textarea className='textBox' onChange={this.saveInput} placeholder="Input goes here..." />
+          <textarea
+            className='textBox'
+            value={this.state.input}
+            onChange={this.saveInput}
+            placeholder="Input goes here..." />
         </div>
         <div className='output'>
           <div className='outputArea'>

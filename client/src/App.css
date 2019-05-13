@@ -17,6 +17,7 @@
   height: 40vh;
 }
 .textBox{
+  color: black;
   display: block;
   padding: 10px;
   resize: none;
